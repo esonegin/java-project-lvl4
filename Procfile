@@ -1,1 +1,1 @@
-web: sh build/install/authentication/bin/authentication
+web: sh build/install/app/bin/app
