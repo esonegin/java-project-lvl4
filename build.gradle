@@ -5,6 +5,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id "io.ebean" version "13.7.0"
     id 'com.adarshr.test-logger' version '3.0.0'
+    id 'jacoco'
 
 }
 
@@ -77,4 +78,14 @@ tasks.withType(JavaCompile) {
 
 compileJava {
     options.release = 17
+}
+
+test {
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
 }
