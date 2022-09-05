@@ -1,13 +1,16 @@
 datasource:
-  # Задаём базу данных, к которой будет происходить подключение
-  db:
-    # Имя пользователя и пароль
-    username: ""
-    password: ""
-    # Драйвер базы данных и URL
-    # Используем embedded вариант базы H2
-    # БД располагается в файле в текущей директории
-    url: "jdbc:h2:./hexlet"
-    ebean:
-      migration:
-        run: true
+  default: ${APP_ENV}
+
+  prod:
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+    url: ${JDBC_DATABASE_URL}
+
+  dev:
+    username: sa
+    password: sa
+    url: jdbc:h2:file:./db
+
+ebean:
+  migration:
+    run: true

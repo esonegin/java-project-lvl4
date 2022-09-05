@@ -40,7 +40,15 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'com.github.database-rider:rider-junit5:1.33.0'
-
+    // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5
+    implementation group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.0.15.RELEASE'
+    implementation group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '3.1.0'
+    implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time', version: '3.0.4.RELEASE'
+    implementation 'org.webjars:bootstrap:5.2.0'
+    implementation 'ognl:ognl:3.0.4'
+    testImplementation 'com.konghq:unirest-java:3.13.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.0-M1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.0-M1'
 }
 repositories {
     mavenCentral()
@@ -60,7 +68,11 @@ installDist.mustRunAfter clean
 
 task generateMigrations(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
-    mainClass = 'exercise.MigrationGenerator'
+    mainClass = 'hexlet.code.MigrationGenerator'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
 }
 
 compileJava {
