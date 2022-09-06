@@ -2,6 +2,8 @@ package hexlet.code;
 
 import hexlet.code.model.Url;
 import hexlet.code.model.query.QUrl;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,11 +18,14 @@ import io.javalin.Javalin;
 import io.ebean.DB;
 import io.ebean.Transaction;
 
+import java.io.IOException;
+
 class AppTest {
 
     private static Javalin app;
     private static String baseUrl;
     private static Transaction transaction;
+    private static MockWebServer mockServer;
 
     @BeforeAll
     public static void beforeAll() {
@@ -28,6 +33,8 @@ class AppTest {
         app.start(0);
         int port = app.port();
         baseUrl = "http://localhost:" + port;
+        mockServer = new MockWebServer();
+
     }
 
     @AfterAll
@@ -38,8 +45,9 @@ class AppTest {
     // При использовании БД запускать каждый тест в транзакции -
     // является хорошей практикой
     @BeforeEach
-    void beforeEach() {
+    void beforeEach() throws IOException {
         transaction = DB.beginTransaction();
+        mockServer.shutdown();
     }
 
     @AfterEach
@@ -124,5 +132,32 @@ class AppTest {
         String content = response.getBody();
         assertThat(response.getStatus()).isEqualTo(200);
         assertThat(content).contains("https://test2.org");
+    }
+
+    @Test
+    void testCheckUrl200() throws IOException, InterruptedException {
+        //Настраиваем ответ 400 на запрос https://test.org
+        mockServer.start();
+        mockServer.enqueue(new MockResponse().setResponseCode(200));
+        //Делаем чек по mockUrl
+        HttpResponse<String> response = Unirest
+                .post(mockServer.url("/") + "urls/1/checks")
+                .asString();
+        String content = response.getBody();
+        assertThat(response.getStatus()).isEqualTo(200);
+    }
+
+    @Test
+    void testCheckUrl400() throws IOException, InterruptedException {
+        //Настраиваем ответ 400 на запрос https://test.org
+        MockWebServer mockServer = new MockWebServer();
+        mockServer.start();
+        mockServer.enqueue(new MockResponse().setResponseCode(400));
+        //Делаем чек по mockUrl
+        HttpResponse<String> response = Unirest
+                .post(mockServer.url("/") + "urls/2/checks")
+                .asString();
+        String content = response.getBody();
+        assertThat(response.getStatus()).isEqualTo(400);
     }
 }

@@ -68,68 +68,14 @@ public final class UrlController {
         }
     };
 
-    /*public static Handler showArticle = ctx -> {
-        long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
-        Article article = new QArticle()
-                .id.equalTo(id)
-                .findOne();
-        List<Category> categories = new QCategory()
-                .id.equalTo(id)
-                .findList();
-        ctx.attribute("article", article);
-        ctx.attribute("categories", categories);
-        ctx.render("articles/show.html");
-    };
 
-    public static Handler editArticle = ctx -> {
-        long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
-        Article article = new QArticle()
-                .id.equalTo(id)
-                .findOne();
-        List<Category> categories = new QCategory()
-                .findList();
-        ctx.attribute("article", article);
-        ctx.attribute("categories", categories);
-        ctx.render("articles/edit.html");
-    };
 
-    public static Handler updateArticle = ctx -> {
+    public static Handler urlChecks = ctx -> {
         long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
-        new QArticle()
-                .id.equalTo(id)
-                .asUpdate()
-                .set("title", ctx.formParam("title"))
-                .set("body", ctx.formParam("body"))
-                .update();
-        Article article = new QArticle()
+        Url url = new QUrl()
                 .id.equalTo(id)
                 .findOne();
-        ctx.attribute("article", article);
-        ctx.sessionAttribute("flash", "Статья успешно изменена");
-        ctx.redirect("/urls");
+        ctx.attribute("url", url);
+        ctx.render("urls/show.html");
     };
-
-    public static Handler deleteArticle = ctx -> {
-        long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
-        Article article = new QArticle()
-                .id.equalTo(id)
-                .findOne();
-        ctx.sessionAttribute("flash", "Статья успешно удалена");
-        ctx.attribute("article", article);
-        ctx.attribute("title", article.getTitle());
-        ctx.render("articles/delete.html");
-    };
-
-    public static Handler destroyArticle = ctx -> {
-        long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
-        new QArticle()
-                .id.equalTo(id)
-                .delete();
-       *//* Article article = new QArticle()
-                .id.equalTo(id)
-                .findOne();
-        ctx.attribute("article", article);*//*
-        ctx.attribute("flash", "Article update complete");
-        ctx.redirect("/urls");
-    };*/
 }

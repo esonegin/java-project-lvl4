@@ -20,9 +20,9 @@
         <thead>
         <tr>
             <th class="col-1">ID</th>
-            <th class="col-3">Имя</th>
-            <th>Последняя проверка</th>
-            <th>Код ответа</th>
+            <th>Имя</th>
+            <th class="col-2">Последняя проверка</th>
+            <th class="col-1">Код ответа</th>
         </tr>
         </thead>
         <tbody>
@@ -31,7 +31,9 @@
             <td>
                 <a th:href="@{/urls/{id}(id=*{getId()})}" th:text="${#strings.abbreviate(url.getName(), 30)}"></a>
             </td>
-            <!-- <td th:text="${#temporals.format(url.getCreatedAt(), 'dd/MM/yyyy HH:mm')}"></td>-->
+            <td>
+                <a th:text="${#temporals.format(url.createdAt, 'dd-MM-yyyy HH:mm')}"></a>
+            </td>
             <!--<td th:text="${#strings.abbreviate(article.getDescription(), 60)}"></td>-->
         </tr>
         </tbody>

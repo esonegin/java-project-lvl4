@@ -8,11 +8,26 @@
 <section layout:fragment="content">
     <h1>Сайт: </h1>
     <div class="card" th:object="${url}">
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item" th:text="*{id}"></li>
-            <li class="list-group-item" th:text="*{name}"></li>
-            <li class="list-group-item" th:text="*{createdAt}"></li>
-        </ul>
+        <table class="table table-bordered table-hover mt-3">
+            <tbody>
+            <tr>
+                <td>ID</td>
+                <td th:text="*{getId()}"></td>
+            </tr>
+            <tr>
+                <td>Имя</td>
+                <td>
+                    <a th:href="@{/urls/{id}(id=*{getId()})}" th:text="${#strings.abbreviate(url.getName(), 30)}"></a>
+                </td>
+            </tr>
+            <tr>
+                <td>Дата создания</td>
+                <td>
+                    <a th:text="${#temporals.format(url.createdAt, 'dd-MM-yyyy HH:mm')}"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
   <!--  <div class="card-footer" th:object="${url}">
         <a class="btn btn-primary" th:href="@{/urls/{id}/edit(id=*{id})}">Редактировать</a>

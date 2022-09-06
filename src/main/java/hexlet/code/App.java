@@ -77,7 +77,7 @@ public class App {
                 //GET /articles/new — вывод формы создания новой статьи
                 get("new", UrlController.newUrl);
                 get("{id}", UrlController.showUrl);
-                //POST /articles — создание новой статьи
+                post("{id}/checks", UrlController.urlChecks);
             });
         });
     }

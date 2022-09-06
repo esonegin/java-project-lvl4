@@ -11,46 +11,43 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.*;
+import java.net.URL;
 import java.security.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
-
 
 @Getter
 @Setter
 @Entity
 @Data
-@Table(name = "URL")
 @NoArgsConstructor
-public class Url extends Model {
-
-
-
+public class UrlCheck extends Model {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String name;
+    private int statusCode;
+    private String title;
+    private String h1;
+    @Lob
+    private String description;
+
+    @OneToOne
+    @JoinColumn(name = "url_id")
+    private URL url;
 
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    private List<UrlCheck> urlChecks;
-
-    public Url(String name){
-        this.name = name;
+    public UrlCheck(URL u){
+        this.url = u;
     }
-
     public long getId() {
         return id;
     }
-
-    public String getName() {
-        return name;
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
